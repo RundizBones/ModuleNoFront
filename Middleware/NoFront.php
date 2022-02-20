@@ -52,6 +52,12 @@ class NoFront
      */
     public function init($response = '')
     {
+        if (strtolower(PHP_SAPI) === 'cli') {
+            // if running from CLI.
+            // don't run this middleware here.
+            return $response;
+        }
+
         $allowedFirstURLSegment = ['languages', 'admin'];// all lower case.
         $Url = new \Rdb\System\Libraries\Url($this->Container);
         $firstURLSegment = strtolower($Url->getSegment(1));
